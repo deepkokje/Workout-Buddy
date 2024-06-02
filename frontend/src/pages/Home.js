@@ -1,30 +1,28 @@
 import { useEffect } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
-
-// components
+import { useAuthContext } from "../hooks/useAuthContext";
 import WorkoutDetails from "../components/WorkoutDetails";
 import WorkoutForm from "../components/WorkoutForm";
 
 export default function Home() {
   const { workouts, dispatch } = useWorkoutsContext();
-
-  // useEffect fire the function when the component is rendered
-  // second argument [] empty array (dependency array), implies that only fires the function once, when the component first rendered.
+  const { user }  = useAuthContext();
   useEffect(() => {
-    // the purpose of creating a function inside use effect because we want to use async keyword
-    // we shouldn't use async directly in the callback function of useEffect
     const fetchWorkouts = async () => {
-      const response = await fetch("/api/workouts");
+      const response = await fetch("/api/workouts", {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
       const json = await response.json();
-
       if (response.ok) {
-        // update the context state (global state)
         dispatch({ type: "SET_WORKOUTS", payload: json });
       }
     };
-
-    fetchWorkouts();
-  }, [dispatch]);
+    if(user) {
+      fetchWorkouts();
+    }
+  }, [dispatch, user]);
 
   return (
     <div className="home">
