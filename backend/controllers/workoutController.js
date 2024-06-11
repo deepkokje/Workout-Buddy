@@ -10,6 +10,7 @@ const getWorkouts = async (req, res) => {
 
 // get a single workout
 const getWorkout = async (req, res) => {
+  console.log('got from getWorkut');
   const { id } = req.params;
 
   // check for valid mongodb/mongoose id

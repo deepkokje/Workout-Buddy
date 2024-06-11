@@ -15,7 +15,7 @@ router.use(auth);
 router.get("/", getWorkouts);
 
 // POST a new workout
-router.post("/", createWorkout);
+router.post("/",createWorkout);
 
 // GET a single workout
 router.get("/:id", getWorkout);
