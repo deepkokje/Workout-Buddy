@@ -24,7 +24,7 @@ export default function WorkoutDetails({ workout }) {
 
   return (
     <div className="workout-details">
-      <h4 data-workout = 'workoutTitle'>{workout.title}</h4>
+      <h4 data-testid = 'workoutTitle'>{workout.title}</h4>
       <p data-load = 'workoutLoad'>
         <strong>Load (kg): </strong>
         {workout.load}
@@ -34,7 +34,7 @@ export default function WorkoutDetails({ workout }) {
         {workout.reps}
       </p>
       <p>{moment(workout.createdAt).startOf('minutes').fromNow()}</p>
-      <span onClick={handleClick}><MdDelete/></span>
+      <span onClick={handleClick} data-deleteIcon={`delete-${workout.title}`}><MdDelete/></span>
     </div>
   );
 }

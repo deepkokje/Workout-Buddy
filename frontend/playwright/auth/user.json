@@ -1,4 +1,14 @@
 {
   "cookies": [],
-  "origins": []
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "user",
+          "value": "{\"email\":\"dpj21@gmail.com\",\"token\":\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjhjMTk5NzZlMWRjZWM3YjA4MzBlYTQiLCJpYXQiOjE3MjA1NTE5NDgsImV4cCI6MTcyMTE1Njc0OH0.r8jfJmfzts_6YmcAoo5wYw0_e5MHkiAUrs_QPR4Yybw\"}"
+        }
+      ]
+    }
+  ]
 }
