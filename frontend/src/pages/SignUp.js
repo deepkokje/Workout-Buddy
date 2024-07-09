@@ -16,6 +16,7 @@ export default function Signup() {
 
       <label>Email: </label>
       <input
+        name='email'
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
@@ -23,11 +24,12 @@ export default function Signup() {
 
       <label>Password: </label>
       <input
+        name='password'
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-      <button disabled={isLoading}>Sign Up</button>
+      <button disabled={isLoading} name="signup">Sign Up</button>
 
       {error && <div className="error">{error}</div>}
     </form>

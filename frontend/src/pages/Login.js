@@ -16,6 +16,7 @@ export default function Login() {
 
       <label>Email: </label>
       <input
+        name="email"
         type="email"
         onChange={(e) => setEmail(e.target.value)}
         value={email}
@@ -23,11 +24,12 @@ export default function Login() {
 
       <label>Password: </label>
       <input
+      name="password"
         type="password"
         onChange={(e) => setPassword(e.target.value)}
         value={password}
       />
-      <button disabled={isLoading}>Login</button>
+      <button disabled={isLoading} name="login">Login</button>
       {error && <div className="error">{error}</div>}
     </form>
   );

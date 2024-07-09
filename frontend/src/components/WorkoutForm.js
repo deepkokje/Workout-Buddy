@@ -47,20 +47,20 @@ const {user} = useAuthContext()
 
   return (
     <form className="create" onSubmit={handleSubmit}>
-      <h3>Add a New Workout</h3>
-      <label>Exercise Title:</label>
+      <h3 role="heading">Add a New Workout</h3>
+      <label data-testid = 'title'>Exercise Title:</label>
       <input
         type="text"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
       />
-      <label>Load (in kg):</label>
+      <label data-testid = 'load'>Load (in kg):</label>
       <input
         type="number"
         onChange={(e) => setLoad(e.target.value)}
         value={load}
       />
-      <label>Reps:</label>
+      <label data-testid = 'reps'>Reps:</label>
       <input
         type="number"
         onChange={(e) => setReps(e.target.value)}

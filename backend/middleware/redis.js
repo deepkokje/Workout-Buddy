@@ -27,7 +27,6 @@ async function initializeRedisClient() {
       query: req.query,
       body: req.body,
     };
-    console.log('requested key', `${req.path}@${hash.sha1(reqDataToHash)}`);
     return `${req.path}@${hash.sha1(reqDataToHash)}`;
   }
   function isRedisWorking() {
@@ -35,7 +34,7 @@ async function initializeRedisClient() {
   }
 
   async function writeData(key, data, options) {
-    if (isRedisWorking) {
+    if (isRedisWorking()) {
       try {
         await redisClient.set(key, data, options);
       } catch (e) {
@@ -47,55 +46,52 @@ async function initializeRedisClient() {
   async function readData(key) {
     let cachedValue = undefined;
   
+    // try to get the cached response from redis
     if (isRedisWorking()) {
-      // try to get the cached response from redis
       cachedValue = await redisClient.get(key);
+      console.log('cachedValue',cachedValue);
       if (cachedValue) {
           return cachedValue;
       }
     }
   }
 
-  const redisCacheMiddleWare = ({
+  function redisCacheMiddleWare(
     options = {
-      EX: 21600 //6hrs
+      EX: 21600, // 6h
     }
-  }) => {
-    return async(req, res, next) => {
-      if(isRedisWorking) {
-        const key = requestToKey(req); //reads data if exists in redis db
-        //check if key exists and find the data from redis and return it
+  ) {
+    return async (req, res, next) => {
+      if (isRedisWorking()) {
+        const key = requestToKey(req);
+        // if there is some cached data, retrieve it and return it
         const cachedValue = await readData(key);
-        if(cachedValue) {
-          console.log('REDIS MATHI LAYO');
+        if (cachedValue) {
           try {
-            return res.json(JSON.parse(cachedValue))
-          } catch(e) {
+            return res.json(JSON.parse(cachedValue));
+          } catch {
             return res.send(cachedValue);
           }
         } else {
-          console.log('DB MA SODHVA GAYO');
-          //write logic for getting valeus from db and storing it in redis DB
           const oldSend = res.send;
-          res.send = (data) => {
+          res.send = function (data) {
             res.send = oldSend;
-            // cache the response only if it is successful
             if (res.statusCode.toString().startsWith("2")) {
-             console.log('write data', {key,data});
               writeData(key, data, options).then();
             }
   
             return res.send(data);
-          }
-                next();
+          };
+  
+          // continue to the controller function
+          next();
         }
       } else {
+        // proceed with no caching
         next();
       }
-    }
-
-  } 
-
+    };
+  }
 
 
   module.exports = {initializeRedisClient, redisCacheMiddleWare};

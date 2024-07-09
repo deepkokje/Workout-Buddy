@@ -24,12 +24,12 @@ export default function WorkoutDetails({ workout }) {
 
   return (
     <div className="workout-details">
-      <h4>{workout.title}</h4>
-      <p>
+      <h4 data-workout = 'workoutTitle'>{workout.title}</h4>
+      <p data-load = 'workoutLoad'>
         <strong>Load (kg): </strong>
         {workout.load}
       </p>
-      <p>
+      <p data-reps= 'workoutReps'>
         <strong>Reps: </strong>
         {workout.reps}
       </p>
